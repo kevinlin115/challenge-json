@@ -1,1 +1,35 @@
-<div class="d-flex justify-content-center">test</div>
+<div class="p-5">
+
+  <div class="form-group">
+    <input type="text"
+           class="form-control"
+           placeholder="League Name"
+           [(ngModel)]="leagueName">
+  </div>
+
+  <!-- Achievements -->
+  <div class="my-4">
+    <button type="button"
+            class="btn btn-primary"
+            (click)="Achievements.click()">選擇 Achievements.csv</button>
+    <input #Achievements
+           accept=".csv"
+           type="file"
+           class="d-none"
+           (click)="Achievements.value=''"
+           (change)="onAchievementsChange($event)">
+  </div>
+
+  <!-- AchievementItems -->
+  <div class="my-4">
+    <button type="button"
+            class="btn btn-primary"
+            (click)="AchievementItems.click()">選擇 AchievementItems.csv</button>
+    <input #AchievementItems
+           accept=".csv"
+           type="file"
+           class="d-none"
+           (click)="AchievementItems.value=''"
+           (change)="onAchievementsChange($event)">
+  </div>
+</div>
