@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
 
   trasform() {
     try {
+      this.challenges = [];
       this.achievements.forEach(achievement => {
         this.challenges.push(new Challenge({
           id: achievement[AchievementsColumn.Id],
