@@ -2,6 +2,8 @@
   - ng build --prod --base-href=/challenge-json/
   - npx ngh --dir=dist/challenge-json --no-silent
 
+  - ng build --prod --base-href=/challenge-json/;npx ngh --dir=dist/challenge-json --no-silent
+
 ## File
   - Achievements.dat64 (Chinese)
   - Achievements.datl64 (English)
