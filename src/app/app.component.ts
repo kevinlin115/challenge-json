@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { environment } from '@environments/environment.prod';
+import { Subject } from 'rxjs';
+import { AchievementItemsColumm } from './constant/achievement-items-column';
+import { AchievementsColumn } from './constant/achievements-column';
+import { Challenge } from './constant/challenge';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +17,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  challenges = [] as Challenge[];
 
   leagueName = environment.league;
 
@@ -37,6 +42,31 @@ export class AppComponent implements OnInit {
       this.achievementItems = result;
       console.log(`achievementItems = `, this.achievementItems);
     })
+  }
+
+  trasform() {
+    try {
+      this.achievements.forEach(achievement => {
+        this.challenges.push(new Challenge({
+          id: achievement[AchievementsColumn.Id],
+          name: achievement[AchievementsColumn.Description]
+        }));
+      });
+      this.challenges.forEach(challenge => {
+        const tempAchievementItems = this.achievementItems.filter(achievementItem => {
+          // 需要先判斷 challenge id 結尾是不是大寫，如果是大寫需要加上 _
+          const lastLetter = challenge.id.substr(challenge.id.length - 1)
+          const filterStr = lastLetter.toUpperCase() === lastLetter ? `${challenge.id}_` : `${challenge.id}`;
+          return achievementItem[AchievementItemsColumm.Id].startsWith(filterStr)
+        })
+        if (tempAchievementItems.length > 1) {
+          challenge.subChallengeNames = tempAchievementItems.map(achievementItem => achievementItem[AchievementItemsColumm.Name]);
+        }
+      });
+      console.log(`challenges = `, this.challenges);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   private readFile(file: File): Subject<string[][]> {

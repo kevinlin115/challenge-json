@@ -30,6 +30,12 @@
            type="file"
            class="d-none"
            (click)="AchievementItems.value=''"
-           (change)="onAchievementsChange($event)">
+           (change)="onAchievementsItemsChange($event)">
   </div>
-</div>
+
+  <!-- 轉換 -->
+  <div class="my-4">
+    <button type="button"
+            class="btn btn-primary"
+            (click)="trasform()">轉換</button>
+  </div>
