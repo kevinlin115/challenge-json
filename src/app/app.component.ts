@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { AchievementItemsColumm } from './constant/achievement-items-column';
 import { AchievementsColumn } from './constant/achievements-column';
 import { Challenge } from './constant/challenge';
+import { ChallengeJson } from './constant/challenge-json';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,8 @@ export class AppComponent implements OnInit {
   }
 
   challenges = [] as Challenge[];
+  /** 所有挑戰的子挑數目 */
+  subCountList = [] as number[];
 
   leagueName = environment.league;
 
@@ -64,6 +67,8 @@ export class AppComponent implements OnInit {
         }
       });
       console.log(`challenges = `, this.challenges);
+      this.subCountList = this.challenges.map(challenge => challenge.subChallengeNames.length);
+      this.downloadJson(this.challenges);
     } catch (err) {
       console.error(err);
     }
@@ -87,5 +92,31 @@ export class AppComponent implements OnInit {
     };
     reader.readAsText(file);
     return subject;
+  }
+
+  private downloadJson(challenges: Challenge[]) {
+    const challengeJson = new ChallengeJson();
+    challenges.forEach((challenge, index) => {
+      challengeJson.CHALLENGE[index] = {
+        NAME: challenge.name
+      }
+      challenge.subChallengeNames.forEach((subChallenge, subIndex) => {
+        challengeJson.CHALLENGE[index][subIndex] = {
+          NAME: subChallenge
+        }
+      });
+    });
+
+    const json = JSON.stringify(challengeJson, null, 4);
+    const blob1 = new Blob([json], { type: "application/json" });
+    const url = window.URL || window.webkitURL;
+    const link = url.createObjectURL(blob1);
+    console.log(`link = `, link);
+    const a = document.createElement("a");
+    a.download = "challenge.json";
+    a.href = link;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
