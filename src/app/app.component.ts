@@ -64,7 +64,16 @@ export class AppComponent implements OnInit {
           return achievementItem[AchievementItemsColumm.Id].startsWith(filterStr)
         })
         if (tempAchievementItems.length > 1) {
-          challenge.subChallengeNames = tempAchievementItems.map(achievementItem => achievementItem[AchievementItemsColumm.Name]);
+          // subChallenge name 如果有 ',' 他會用""包住，所以要找連接下一個 column 的名字，直到還有 "
+          challenge.subChallengeNames = tempAchievementItems.map(achievementItem => {
+            let startIndex = AchievementItemsColumm.Name;
+            let challengeName = achievementItem[AchievementItemsColumm.Name];
+            while (challengeName.startsWith(`"`) && !challengeName.endsWith(`"`)) {
+              startIndex++;
+              challengeName = `${challengeName},${achievementItem[startIndex]}`;
+            }
+            return challengeName;
+          });
         }
       });
       console.log(`challenges = `, this.challenges);
