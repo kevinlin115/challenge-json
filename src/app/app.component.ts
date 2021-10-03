@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
               startIndex++;
               challengeName = `${challengeName},${achievementItem[startIndex]}`;
             }
-            return challengeName;
+            return challengeName.replaceAll(`"`, '');
           });
         }
       });

@@ -8,7 +8,7 @@
   </div>
 
   <!-- Achievements -->
-  <div class="my-4">
+  <div class="my-4 d-flex align-items-center">
     <button type="button"
             class="btn btn-primary"
             (click)="Achievements.click()">選擇 Achievements.csv</button>
@@ -18,10 +18,13 @@
            class="d-none"
            (click)="Achievements.value=''"
            (change)="onAchievementsChange($event)">
+    <div class="mx-2">
+      已選擇: {{achievementsFile.name}}
+    </div>
   </div>
 
   <!-- AchievementItems -->
-  <div class="my-4">
+  <div class="my-4 d-flex align-items-center">
     <button type="button"
             class="btn btn-primary"
             (click)="AchievementItems.click()">選擇 AchievementItems.csv</button>
@@ -31,12 +34,16 @@
            class="d-none"
            (click)="AchievementItems.value=''"
            (change)="onAchievementsItemsChange($event)">
+    <div class="mx-2">
+      已選擇: {{achievementItemFile.name}}
+    </div>
   </div>
 
   <!-- 轉換 -->
   <div class="my-4">
     <button type="button"
             class="btn btn-primary"
+            [attr.disabled]="!achievementsFile.name || !achievementItemFile.name ? true : null"
             (click)="trasform()">轉換</button>
 
     <!-- 轉換 -->
